@@ -1,0 +1,9 @@
+cat /etc/os-release
+apt policy | sed -n '1,40p'
+apt-cache policy python3-picamera2 python3-libcamera python3-opencv
+grep -R "archive.raspberrypi.com" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null
+
+
+sudo apt update
+sudo apt full-upgrade
+sudo apt install python3-picamera2 python3-libcamera python3-opencv python3-numpy

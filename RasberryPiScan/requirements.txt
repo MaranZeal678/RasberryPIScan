@@ -1,0 +1,3 @@
+# Install dependencies on the Pi with ./full_setup.sh.
+# The runtime intentionally uses Raspberry Pi OS packages instead of pip wheels
+# because Picamera2/OpenCV/pigpio are more stable that way on a Raspberry Pi 4.

@@ -1,0 +1,80 @@
+Here is your **Consolidated Master Guide**. This list covers everything from the moment you turn on your fresh **Raspberry Pi 4 Model B** with the **Arducam Module 3**.
+
+Follow these 5 Phases in order for a perfect setup.
+
+### Phase 1: Install System Drivers (Hardware Level)
+Run this as your very first step to ensure your Pi can "see" the camera and handle AI math.
+```bash
+
+
+sudo apt-get update
+
+
+sudo apt-get install -y python3-pip python3-venv libcamera-v4l2 \
+    gstreamer1.0-plugins-bad libatomic1 pigpio python3-picamera2
+
+
+```
+
+### Phase 2: Deploy your Folder
+Upload your **`final`** folder to the Desktop, then enter it:
+```bash
+
+cd ~/Desktop/RasberryPiScan/final
+
+```
+
+### Phase 3: Create the "Smart" Environment
+This allows Python to access the system camera drivers we installed in Phase 1.
+```bash
+# 1. Create the environment
+
+
+python3 -m venv --system-site-packages venv
+
+# 2. Enter the environment
+
+source venv/bin/activate
+
+# 3. Install AI Libraries (Using the stable list I provided)
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+```
+
+### Phase 4: Stabilize the AI (Model Conversion)
+This creates the **TFLite** version of your model so it won't crash your Pi 4.
+```bash
+# Run the converter script
+
+python3 export_model.py
+
+
+```
+*Wait for it to finish. You should see a new folder created called `best_saved_model`.*
+
+### Phase 5: Start Hardware & Run
+This enables the motors and launches the AI with the specialized "Atomic" protection.
+```bash
+# 1. Start the servo motor background tool
+
+
+sudo systemctl enable pigpiod
+sudo systemctl start pigpiod
+
+# 2. RUN THE AI TRACKER
+
+
+LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libatomic.so.1 python3 tracker.py
+```
+
+---
+
+### **Summary of Why This Works for Pi 4:**
+*   **Arducam Fix**: Uses `Picamera2` which is the official modern driver.
+*   **Crash Fix**: Uses `TFLite` and `numpy<2` to stop `Illegal instruction` errors.
+*   **Motor Fix**: Uses `pigpiod` to prevent servo jitter.
+*   **Stability Fix**: Uses `libatomic` to handle complex AI math without memory errors.
+
+**Your project is now 100% ready for the Pi 4!**

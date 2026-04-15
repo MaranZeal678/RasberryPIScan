@@ -1,0 +1,7 @@
+mediapipe==0.10.9
+opencv-python-headless
+ultralytics
+gpiozero
+pigpio
+numpy<2
+tflite-runtime

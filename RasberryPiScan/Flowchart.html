@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Surgical Tracking Flowchart</title>
+    <!-- Load Mermaid.js to render the diagram -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            themeVariables: {
+                fontSize: '24px',  /* Massive boost to text size */
+                fontFamily: 'sans-serif'
+            }
+        });
+    </script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            padding: 2rem; 
+            background-color: white;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .mermaid {
+            /* Scale it up significantly so it dominates a PDF */
+            transform: scale(1.35);
+            transform-origin: top center;
+            font-weight: bold;
+        }
+        .instructions {
+            margin-top: 3rem;
+            padding: 1rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        @media print {
+            .instructions {
+                display: none; /* Hide instructions when saving/printing */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Surgical AI Tracking Flowchart</h1>
+    
+    <div class="mermaid">
+    flowchart TD
+        %% Styling
+        classDef hardware fill:#2a9d8f,stroke:#2a9d8f,color:#fff,stroke-width:2px,rx:10px,ry:10px;
+        classDef software fill:#e76f51,stroke:#e76f51,color:#fff,stroke-width:2px,rx:10px,ry:10px;
+        classDef physical fill:#e9c46a,stroke:#e9c46a,color:#333,stroke-width:2px,rx:10px,ry:10px;
+        
+        A([⚡ Plug Pi into Power]):::physical --> B[Raspberry Pi Boots Up]:::hardware
+        B --> C{Autostart Background Service}:::software
+        
+        C -->|Step 1| D[Hardware Motor Engine Starts]:::software
+        C -->|Step 2| E[Main AI Script Starts]:::software
+        
+        E --> F[(Camera Captures Current Frame)]:::hardware
+        
+        F -->|Analyzing Image| G[MediaPipe Engine]:::software
+        F -->|Analyzing Image| H[YOLOv8 Engine]:::software
+        
+        G -->|Locates| I[Hand Center X,Y]:::software
+        H -->|Locates| J[Surgical Tool Center X,Y]:::software
+        
+        I --> K{Decision Logic}:::software
+        J --> K
+        
+        K -->|Target Locked| L[Calculate Error from Dead-Center]:::software
+        
+        L --> M[Send Electrical Pulses to Pins 17 & 18]:::hardware
+        
+        M --> N[Pan Motor Moves Left/Right]:::physical
+        M --> O[Tilt Motor Moves Up/Down]:::physical
+        
+        N --> P([💡 LED Shines Exactly on Target]):::physical
+        O --> P
+        
+        %% Loop back to next frame
+        P -->|Script repeats instantly| F
+    </div>
+    
+    <div class="instructions">
+        <strong>How to save as PDF:</strong> Press <code>Cmd</code> + <code>P</code> (or go to File > Print) and change the destination to "Save as PDF".
+    </div>
+</body>
+</html>
