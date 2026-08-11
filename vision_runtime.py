@@ -203,9 +203,8 @@ class InstrumentDetector:
         root = Path(__file__).resolve().parent
         candidate_paths.extend(
             [
-                root / "final" / "runs" / "detect" / "surgical_instrument_model" / "weights" / "best.onnx",
-                root / "final" / "runs" / "detect" / "surgical_instrument_model2" / "weights" / "best.onnx",
-                root / "yolov8n.onnx",
+                root / "results" / "weights" / "best.onnx",
+                root / "models" / "yolov8n.onnx",
             ]
         )
 
@@ -224,7 +223,7 @@ class InstrumentDetector:
 
     def _load_labels(self, model_path):
         root = Path(__file__).resolve().parent
-        if "surgical_instrument_model" in str(model_path):
+        if "best.onnx" in Path(model_path).name:
             return {index: "instrument" for index in range(26)}
         if "yolov8n.onnx" in model_path.name:
             return {
@@ -233,7 +232,7 @@ class InstrumentDetector:
                 44: "spoon",
                 76: "scissors",
             }
-        metadata_path = root / "yolov8n_saved_model" / "metadata.yaml"
+        metadata_path = root / "models" / "yolov8n_saved_model" / "metadata.yaml"
         if metadata_path.exists():
             return {42: "fork", 43: "knife", 44: "spoon", 76: "scissors"}
         return {}

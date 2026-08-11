@@ -1,6 +1,7 @@
 # Raspberry Pi Run Guide
 
-This folder is ready to run directly on a Raspberry Pi 4 after you copy it over.
+This repository is ready to run directly on a Raspberry Pi 4 after you copy it over.
+All commands below are run from the repository root.
 
 ## 1. Wiring
 
@@ -9,20 +10,26 @@ This folder is ready to run directly on a Raspberry Pi 4 after you copy it over.
 - Servo tilt signal: GPIO 18
 - Servo power: use a separate 5V supply with a shared ground to the Pi
 
-## 2. Copy the folder to the Pi
+## 2. Get the code onto the Pi
 
-Example from your Mac:
+Clone it directly on the Pi:
 
 ```bash
-scp -r /Users/maran/Desktop/RasberryPiScan pi@<PI_IP>:~/
+git clone https://github.com/MaranZeal678/RasberryPIScan.git
+cd RasberryPIScan
 ```
 
-Then on the Pi:
+Or copy a local working tree over:
 
 ```bash
-cd ~/RasberryPiScan
-chmod +x full_setup.sh setup_autostart.sh
-./full_setup.sh
+scp -r ./RasberryPIScan pi@<PI_IP>:~/
+```
+
+Then install the dependencies:
+
+```bash
+chmod +x scripts/*.sh
+./scripts/full_setup.sh
 ```
 
 ## 3. Test the camera
@@ -44,7 +51,7 @@ What it does:
 - shows the live camera feed
 - prints a camera/runtime log in the terminal once per second
 - detects the moving hand with OpenCV
-- optionally detects an instrument if one of the ONNX models in this folder is available
+- optionally detects an instrument using a model from `models/` (pass `--model-path` to choose one)
 - moves the adjacent servo to follow the hand position
 
 Useful options:
@@ -58,7 +65,7 @@ python3 tracker.py --camera-index 0
 ## 5. Enable autostart
 
 ```bash
-./setup_autostart.sh
+./scripts/setup_autostart.sh
 ```
 
 Then follow the logs with:

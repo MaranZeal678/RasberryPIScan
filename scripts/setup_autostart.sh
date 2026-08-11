@@ -8,7 +8,8 @@ echo "Ensuring pigpiod is running..."
 sudo systemctl enable pigpiod
 sudo systemctl restart pigpiod
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+# Repository root — this script lives in scripts/, tracker.py lives one level up.
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 
 echo "Creating systemd service..."
 cat <<EOT | sudo tee /etc/systemd/system/surgical_tracker.service >/dev/null

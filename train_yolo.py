@@ -5,13 +5,13 @@ def main():
     print("Starting YOLOv8 training process...")
     
     # Check if the dataset config exists
-    data_path = "instruments.v2i.yolov8/data.yaml"
+    data_path = "data/instruments.v2i.yolov8/data.yaml"
     if not os.path.exists(data_path):
         print(f"Error: {data_path} not found.")
         return
 
     # Load a pre-trained Nano model (lightest model, ideal for Raspberry Pi)
-    model = YOLO("yolov8n.pt")
+    model = YOLO("models/yolov8n.pt")
 
     # Train the model using the provided dataset
     # macOS with M1/M2/M3 chips will automatically use 'mps' hardware acceleration.
